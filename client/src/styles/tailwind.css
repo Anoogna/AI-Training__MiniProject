@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #e5eefb;
+  background-color: #020617;
+  font-family: Inter, 'Segoe UI', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%); }

@@ -12,7 +12,7 @@ const navItems = [
   { path: '/driver', label: 'Driver View', roles: ['driver'] },
 ];
 
-export default function Navbar() {
+export default function Navbar({ theme, toggleTheme }) {
   const { user, logout } = useAuth();
   const location = useLocation();
 
@@ -33,6 +33,9 @@ export default function Navbar() {
         ))}
       </div>
       <div className="nav-user">
+        <button className="theme-toggle" onClick={toggleTheme} type="button">
+          {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+        </button>
         <span>{user?.name} ({user?.role})</span>
         <button onClick={logout} type="button">
           Logout

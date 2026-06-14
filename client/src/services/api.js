@@ -11,6 +11,8 @@ api.interceptors.request.use((config) => {
 });
 
 export const authAPI = {
+  register: (name, email, password, role = 'dispatcher') =>
+    api.post('/auth/register', { name, email, password, role }),
   login: (email, password) => api.post('/auth/login', { email, password }),
   me: () => api.get('/auth/me'),
 };
