@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { warehouseAPI } from '../services/api';
 import VoiceAssistant from '../components/VoiceAssistant';
+import { useAuth } from '../hooks/useAuth';
+import { canAccessAction } from '../config/roleAccess';
 
 export default function Warehouse() {
   const [tasks, setTasks] = useState([]);
+  const { user } = useAuth();
 
   const load = () => warehouseAPI.tasks().then((res) => setTasks(res.data));
 
@@ -41,7 +44,7 @@ export default function Warehouse() {
                     <span className={`badge ${t.status}`}>{t.status}</span>
                   </td>
                   <td>
-                    {t.status !== 'completed' && (
+                    {t.status !== 'completed' && canAccessAction(user?.role, 'warehouse', 'complete_task') && (
                       <button onClick={() => completeTask(t._id)} type="button">
                         Complete
                       </button>

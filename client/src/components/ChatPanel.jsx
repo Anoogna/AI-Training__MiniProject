@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { deliveryAPI, messageAPI } from '../services/api';
+import { useAuth } from '../hooks/useAuth';
 
 export default function ChatPanel() {
+  const { user } = useAuth();
   const [messages, setMessages] = useState([
     { from: 'bot', text: 'Hello! I am the delivery coordination bot. Try "run bot" or type a command.' },
   ]);
@@ -22,18 +24,30 @@ export default function ChatPanel() {
       const lower = userMsg.toLowerCase();
 
       if (lower.includes('run bot') || lower.includes('assign')) {
-        const res = await deliveryAPI.runBot();
-        reply = res.data.message;
+        if (!user || !['admin', 'dispatcher'].includes(user.role)) {
+          reply = 'Forbidden: only admin or dispatcher can run the assignment bot.';
+        } else {
+          const res = await deliveryAPI.runBot();
+          reply = res.data.message;
+        }
         if (res.data.suggestions?.length) {
           reply += ' ' + res.data.suggestions.map((s) => `${s.shipmentId}→${s.vehicleId}`).join(', ');
         }
       } else if (lower.includes('pending')) {
-        const res = await deliveryAPI.tasks();
-        reply = `${res.data.length} pending/assigned tasks.`;
+        if (!user || !['admin', 'dispatcher'].includes(user.role)) {
+          reply = 'Forbidden: only admin or dispatcher can view pending tasks.';
+        } else {
+          const res = await deliveryAPI.tasks();
+          reply = `${res.data.length} pending/assigned tasks.`;
+        }
       } else if (lower.startsWith('broadcast ')) {
-        const text = userMsg.slice(10);
-        const res = await messageAPI.broadcast(text);
-        reply = res.data.message;
+        if (!user || !['admin', 'dispatcher'].includes(user.role)) {
+          reply = 'Forbidden: only admin or dispatcher can broadcast messages.';
+        } else {
+          const text = userMsg.slice(10);
+          const res = await messageAPI.broadcast(text);
+          reply = res.data.message;
+        }
       } else {
         reply = 'Commands: "run bot", "show pending", "broadcast <message>"';
       }

@@ -57,6 +57,27 @@ router.patch('/:id/status', auth, async (req, res) => {
   try {
     const { status, note } = req.body;
     const io = req.app.get('io');
+
+    // Basic role-based status transition validation
+    const role = req.user?.role;
+    const s = (status || '').toString().toLowerCase();
+
+    const transitionRoles = {
+      picked: ['warehouse'],
+      in_transit: ['driver', 'dispatcher', 'admin'],
+      delivered: ['driver', 'admin'],
+      at_gate: ['gate'],
+      exit: ['gate'],
+      created: ['admin', 'dispatcher'],
+    };
+
+    if (role !== 'admin') {
+      const allowed = transitionRoles[s];
+      if (allowed && !allowed.includes(role)) {
+        return res.status(403).json({ message: 'Forbidden: role cannot set this status' });
+      }
+    }
+
     const shipment = await updateShipmentStatus(req.params.id, status, note, io);
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
     res.json(shipment);

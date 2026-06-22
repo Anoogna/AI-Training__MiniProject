@@ -3,10 +3,39 @@
 @tailwind utilities;
 
 :root {
-  color: #e5eefb;
-  background-color: #020617;
-  font-family: Inter, 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-html { scroll-behavior: smooth; }
-body { background: linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%); }
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%) !important;
+  color: #0f172a !important;
+  border: none !important;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #67e8f9 0%, #3b82f6 100%) !important;
+}
+
+button.secondary,
+.theme-toggle,
+.nav-user button,
+.login-card button,
+.voice-btn {
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%) !important;
+  color: #0f172a !important;
+  border: none !important;
+}

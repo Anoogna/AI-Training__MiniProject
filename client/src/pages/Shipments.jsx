@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { shipmentAPI } from '../services/api';
 import { useSocket } from '../hooks/useSocket';
+import { useAuth } from '../hooks/useAuth';
+import { canAccessAction } from '../config/roleAccess';
 
 const STATUSES = ['created', 'picked', 'in_transit', 'at_gate', 'delivered'];
 
 export default function Shipments() {
   const [shipments, setShipments] = useState([]);
   const [selected, setSelected] = useState(null);
+  const { user } = useAuth();
 
   useSocket();
 
@@ -17,7 +20,15 @@ export default function Shipments() {
     load();
   }, []);
 
+  const roleAllowedForStatus = (role, status) => {
+    if (!role) return false;
+    return canAccessAction(role, 'shipments', status);
+  };
+
   const updateStatus = async (id, status) => {
+    if (!user || !roleAllowedForStatus(user.role, status)) {
+      return alert('You are not authorized to set this status');
+    }
     await shipmentAPI.updateStatus(id, status, `Updated to ${status}`);
     load();
     if (selected?._id === id) {
@@ -59,7 +70,7 @@ export default function Shipments() {
                     onChange={(e) => updateStatus(s._id, e.target.value)}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {STATUSES.map((st) => (
+                    {STATUSES.filter((st) => (user ? roleAllowedForStatus(user.role, st) || user.role === 'admin' : false)).map((st) => (
                       <option key={st} value={st}>
                         {st}
                       </option>

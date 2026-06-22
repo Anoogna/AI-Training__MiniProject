@@ -16,6 +16,7 @@ import trafficRoutes from './routes/traffic.js';
 import gateRoutes from './routes/gate.js';
 import warehouseRoutes from './routes/warehouse.js';
 import voiceRoutes from './routes/voice.js';
+import leadRoutes from './routes/leads.js';
 import { setupSockets } from './sockets/index.js';
 import { checkTrafficAndReroute } from './services/trafficService.js';
 import Vehicle from './models/Vehicle.js';
@@ -48,6 +49,7 @@ app.use('/api/traffic', trafficRoutes);
 app.use('/api/gate', gateRoutes);
 app.use('/api/warehouse', warehouseRoutes);
 app.use('/api/voice', voiceRoutes);
+app.use('/api/leads', leadRoutes);
 
 setupSockets(io);
 

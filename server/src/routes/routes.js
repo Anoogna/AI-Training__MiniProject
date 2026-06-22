@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import RoutePlan from '../models/RoutePlan.js';
 import Shipment from '../models/Shipment.js';
-import { auth } from '../middleware/auth.js';
+import { auth, roleGuard } from '../middleware/auth.js';
 import { optimizeRouteForShipment } from '../services/routeService.js';
 
 const router = Router();
@@ -15,7 +15,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.post('/optimize/:shipmentId', auth, async (req, res) => {
+router.post('/optimize/:shipmentId', auth, roleGuard('admin', 'dispatcher'), async (req, res) => {
   try {
     const shipment = await Shipment.findById(req.params.shipmentId);
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });

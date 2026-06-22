@@ -1,22 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-
-const navItems = [
-  { path: '/', label: 'Dashboard', roles: ['admin', 'dispatcher', 'driver', 'warehouse', 'gate'] },
-  { path: '/fleet', label: 'Fleet', roles: ['admin', 'dispatcher', 'driver'] },
-  { path: '/shipments', label: 'Shipments', roles: ['admin', 'dispatcher'] },
-  { path: '/delivery', label: 'Delivery Bot', roles: ['admin', 'dispatcher'] },
-  { path: '/messages', label: 'Messages', roles: ['admin', 'dispatcher', 'driver'] },
-  { path: '/warehouse', label: 'Warehouse', roles: ['admin', 'warehouse', 'dispatcher'] },
-  { path: '/gate', label: 'Gate', roles: ['admin', 'gate', 'dispatcher'] },
-  { path: '/driver', label: 'Driver View', roles: ['driver'] },
-];
+import { visibleNavItems } from '../config/roleAccess';
 
 export default function Navbar({ theme, toggleTheme }) {
   const { user, logout } = useAuth();
   const location = useLocation();
 
-  const visible = navItems.filter((item) => item.roles.includes(user?.role));
+  const visible = visibleNavItems(user?.role).map((item) => ({
+    ...item,
+    path: item.path === '/dashboard' ? '/' : item.path,
+  }));
 
   return (
     <nav className="navbar">

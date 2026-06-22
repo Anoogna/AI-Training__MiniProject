@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { deliveryAPI } from '../services/api';
 import ChatPanel from '../components/ChatPanel';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Delivery() {
   const [tasks, setTasks] = useState([]);
+  const { user } = useAuth();
 
   const load = () => deliveryAPI.tasks().then((res) => setTasks(res.data));
 
@@ -23,9 +25,14 @@ export default function Delivery() {
         <div className="panel">
           <div className="panel-header">
             <h2>Task Queue</h2>
-            <button onClick={runBot} type="button">
-              Run Assignment Bot
-            </button>
+            {user && ['admin', 'dispatcher'].includes(user.role) && (
+              <button onClick={runBot} type="button">
+                Run Assignment Bot
+              </button>
+            )}
+            {!user || !['admin', 'dispatcher'].includes(user.role) ? (
+              <small>Only admin/dispatcher can run the assignment bot</small>
+            ) : null}
           </div>
           <table className="data-table">
             <thead>

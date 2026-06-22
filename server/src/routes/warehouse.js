@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.get('/tasks', auth, async (req, res) => {
+router.get('/tasks', auth, roleGuard('warehouse', 'dispatcher', 'admin'), async (req, res) => {
   try {
     const tasks = await listWarehouseTasks();
     res.json(tasks);

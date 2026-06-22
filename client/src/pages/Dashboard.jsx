@@ -6,6 +6,7 @@ import FleetMap from '../components/FleetMap';
 import VoiceAssistant from '../components/VoiceAssistant';
 import ChatPanel from '../components/ChatPanel';
 import { useAuth } from '../hooks/useAuth';
+import { visibleNavItems } from '../config/roleAccess';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -36,9 +37,14 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    loadData();
+    const initialLoad = setTimeout(() => {
+      loadData();
+    }, 0);
     const interval = setInterval(loadData, 15000);
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(initialLoad);
+      clearInterval(interval);
+    };
   }, [loadData]);
 
   const handleVoiceAction = (actions) => {
@@ -55,14 +61,12 @@ export default function Dashboard() {
     vehicles: vehicles.filter((v) => v.status !== 'maintenance').length,
   };
 
-  const quickLinks = [
-    { to: '/fleet', label: 'Fleet', roles: ['admin', 'dispatcher', 'driver'] },
-    { to: '/shipments', label: 'Shipments', roles: ['admin', 'dispatcher'] },
-    { to: '/delivery', label: 'Delivery Bot', roles: ['admin', 'dispatcher'] },
-    { to: '/warehouse', label: 'Warehouse', roles: ['admin', 'warehouse', 'dispatcher'] },
-    { to: '/gate', label: 'Gate', roles: ['admin', 'gate', 'dispatcher'] },
-    { to: '/driver', label: 'Driver View', roles: ['driver'] },
-  ].filter((item) => item.roles.includes(user?.role));
+  const quickLinks = visibleNavItems(user?.role)
+    .filter((item) => item.path !== '/dashboard')
+    .map((item) => ({
+      to: item.path,
+      label: item.label,
+    }));
 
   const roleLabel = {
     admin: 'Admin Control Center',
@@ -134,8 +138,10 @@ export default function Dashboard() {
           <h3>Live Notifications</h3>
           {notifications.slice(0, 5).map((n) => (
             <div key={n.id} className={`notification ${n.type}`}>
-              <strong>{n.type}</strong>
-              <span>{n.data?.message || JSON.stringify(n.data).slice(0, 80)}</span>
+              <strong className="notification-title">{n.type}</strong>
+              <p className="notification-message">
+                {n.data?.message || JSON.stringify(n.data).slice(0, 80)}
+              </p>
             </div>
           ))}
         </div>

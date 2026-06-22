@@ -1,12 +1,50 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { getRoleHome } from '../config/roleAccess';
 
-const getRoleHome = (role) => {
-  if (role === 'driver') return '/driver';
-  if (role === 'warehouse') return '/warehouse';
-  if (role === 'gate') return '/gate';
-  return '/dashboard';
+const featurePills = ['Live fleet tracking', 'Voice assistant', 'Route intelligence', 'Gate operations'];
+
+const heroCards = [
+  {
+    title: 'Dispatch control',
+    description: 'Coordinate fleets, shipments, and drivers from one calm command surface.',
+    src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80',
+    alt: 'Professional logistics team in business suits',
+    large: true,
+  },
+  {
+    title: 'Live operations',
+    description: 'Monitor route updates, live alerts, and shipment activity in real time.',
+    src: 'https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=80',
+    alt: 'Smart logistics dashboard preview',
+    large: false,
+  },
+];
+
+const stats = [
+  { value: '24/7', label: 'Fleet visibility' },
+  { value: '8+', label: 'Operations modules' },
+  { value: 'AI', label: 'Voice and routing' },
+];
+
+const loginVariants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: 'easeOut',
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0 },
 };
 
 export default function Login() {
@@ -28,94 +66,107 @@ export default function Login() {
   };
 
   return (
-    <div className="login-page">
-      <section className="login-hero-panel">
-        <div className="hero-badge">AI-powered logistics control center</div>
-        <h1>Fleet dispatch, delivery intelligence, and live operations in one sleek workspace.</h1>
-        <p className="hero-copy">
-          Monitor vehicles, automate assignments, coordinate drivers, and keep shipment operations moving with a modern command center built for dispatch teams.
-        </p>
+    <main className="login-page">
+      <motion.section
+        className="login-showcase"
+        variants={loginVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div className="login-badge" variants={itemVariants}>
+          AI-powered logistics control center
+        </motion.div>
+        <motion.h1 variants={itemVariants}>
+          Fleet dispatch, delivery intelligence, and live operations in one polished workspace.
+        </motion.h1>
+        <motion.p className="login-copy" variants={itemVariants}>
+          Monitor vehicles, automate assignments, coordinate drivers, and keep shipment operations moving with a premium command center built for dispatch teams.
+        </motion.p>
 
-        <div className="feature-pills">
-          <span>Live fleet tracking</span>
-          <span>Voice command assistant</span>
-          <span>Traffic & route alerts</span>
-          <span>Warehouse + gate orchestration</span>
-        </div>
+        <motion.div className="login-pill-row" variants={itemVariants}>
+          {featurePills.map((pill) => (
+            <span key={pill}>{pill}</span>
+          ))}
+        </motion.div>
 
-        <div className="hero-visual-grid">
-          <article className="visual-card large-card glow-card">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
-              alt="Professional logistics team in business suits"
-            />
-            <div className="visual-caption">
-              <strong>Dispatch leadership</strong>
-              <span>Professional team coordination with real-time shipment visibility.</span>
-            </div>
-          </article>
+        <motion.div className="login-image-grid" variants={itemVariants}>
+          {heroCards.map((card) => (
+            <HeroVisualCard key={card.title} {...card} />
+          ))}
+        </motion.div>
 
-          <article className="visual-card mini-card">
-            <img
-              src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=80"
-              alt="Smart logistics dashboard preview"
-            />
-            <div className="visual-caption">
-              <strong>Operations dashboard</strong>
-              <span>Fleet map, route alerts, and shipment insights at a glance.</span>
-            </div>
-          </article>
-        </div>
+        <motion.div className="login-stat-row" variants={itemVariants}>
+          {stats.map((item) => (
+            <article key={item.label} className="login-stat-card">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </motion.div>
+      </motion.section>
 
-        <div className="mini-stats">
-          <article className="mini-stat-card">
-            <strong>24/7</strong>
-            <span>Live fleet visibility</span>
-          </article>
-          <article className="mini-stat-card">
-            <strong>8</strong>
-            <span>Smart operations modules</span>
-          </article>
-          <article className="mini-stat-card">
-            <strong>AI</strong>
-            <span>Voice + routing assistance</span>
-          </article>
-        </div>
-      </section>
-
-      <section className="login-card-panel">
-        <div className="login-card">
-          <div className="login-card-head">
-            <p className="eyebrow">Secure access</p>
+      <motion.section
+        className="login-panel"
+        variants={loginVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <div className="login-panel-card">
+          <motion.div className="login-panel-head" variants={itemVariants}>
+            <p className="login-eyebrow">Secure access</p>
             <h2>Welcome back</h2>
-            <p className="subtitle">Sign in with your logistics role to access the dashboard.</p>
-          </div>
+            <p>Sign in with your logistics role to access the dashboard.</p>
+          </motion.div>
 
-          <form onSubmit={handleSubmit} className="login-form">
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            {error && <p className="error">{error}</p>}
+          <motion.form onSubmit={handleSubmit} className="login-form" variants={itemVariants}>
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+            {error && <p className="login-error">{error}</p>}
             <button type="submit">Sign In</button>
-          </form>
+          </motion.form>
 
-          <div className="demo-accounts">
-            <p>Demo accounts (password: password123)</p>
+          <motion.div className="login-demo" variants={itemVariants}>
+            <p>Demo accounts</p>
             <ul>
               <li>dispatcher@logistics.com</li>
               <li>driver1@logistics.com</li>
               <li>warehouse@logistics.com</li>
               <li>gate@logistics.com</li>
             </ul>
-          </div>
+          </motion.div>
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </main>
+  );
+}
+
+function HeroVisualCard({ src, alt, title, description, large }) {
+  return (
+    <article className={`login-visual-card ${large ? 'is-large' : 'is-small'}`}>
+      <div className="login-visual-frame">
+        <img src={src} alt={alt} />
+        <div className="login-visual-overlay" />
+      </div>
+      <div className="visual-caption">
+        <strong>{title}</strong>
+        <span>{description}</span>
+      </div>
+    </article>
   );
 }

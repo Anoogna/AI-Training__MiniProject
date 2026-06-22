@@ -5,7 +5,7 @@ import Shipment from '../models/Shipment.js';
 
 const router = Router();
 
-router.get('/logs', auth, async (req, res) => {
+router.get('/logs', auth, roleGuard('admin', 'dispatcher', 'gate'), async (req, res) => {
   try {
     const logs = await listGateLogs();
     res.json(logs);

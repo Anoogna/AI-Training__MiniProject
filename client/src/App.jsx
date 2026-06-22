@@ -13,6 +13,8 @@ import Warehouse from './pages/Warehouse';
 import Gate from './pages/Gate';
 import DriverView from './pages/DriverView';
 import TrackShipment from './pages/TrackShipment';
+import Leads from './pages/Leads';
+import { getRoleHome } from './config/roleAccess';
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -28,24 +30,10 @@ function RoleRoute({ children, allowedRoles }) {
   if (!user) return <Navigate to="/login" replace />;
 
   if (!allowedRoles.includes(user.role)) {
-    const fallback = user.role === 'driver'
-      ? '/driver'
-      : user.role === 'warehouse'
-        ? '/warehouse'
-        : user.role === 'gate'
-          ? '/gate'
-          : '/';
-    return <Navigate to={fallback} replace />;
+    return <Navigate to={getRoleHome(user.role)} replace />;
   }
 
   return children;
-}
-
-function getRoleHome(role) {
-  if (role === 'driver') return '/driver';
-  if (role === 'warehouse') return '/warehouse';
-  if (role === 'gate') return '/gate';
-  return '/dashboard';
 }
 
 function LandingGate() {
@@ -134,6 +122,14 @@ function AppRoutes() {
                   element={
                     <RoleRoute allowedRoles={['driver']}>
                       <DriverView />
+                    </RoleRoute>
+                  }
+                />
+                <Route
+                  path="/leads"
+                  element={
+                    <RoleRoute allowedRoles={['admin']}>
+                      <Leads />
                     </RoleRoute>
                   }
                 />

@@ -73,4 +73,12 @@ export const voiceAPI = {
   process: (transcript, sessionId) => api.post('/voice/process', { transcript, sessionId }),
 };
 
+export const leadAPI = {
+  demo: (data) => api.post('/leads/demo', data),
+  newsletter: (email) => api.post('/leads/newsletter', { email }),
+  contact: (data) => api.post('/leads/contact', data),
+  list: (params) => api.get('/leads', { params }),
+  update: (id, data) => api.patch(`/leads/${id}`, data),
+};
+
 export default api;

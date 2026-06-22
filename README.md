@@ -90,6 +90,57 @@ docs/            Additional documentation
 
 See `server/.env.example` for all options.
 
+## Roles & Testing
+
+Role capability summary:
+
+- **Admin:** full access — manage users, vehicles, shipments, run delivery bot, broadcast messages, view logs, optimize routes.
+- **Dispatcher:** fleet/dashboard, run delivery bot, assign deliveries, create/update shipments, broadcast to drivers, view logs, optimize routes.
+- **Driver:** driver dashboard, update GPS/location, view assigned shipments, set `in_transit`/`delivered` on assigned shipments, receive messages and alerts.
+- **Warehouse:** warehouse panel, claim/complete picks, set `picked` status, use warehouse voice commands.
+- **Gate:** gate panel, register entry/exit, view gate logs, set gate-related statuses (`at_gate`, `exit`).
+- **Public:** read-only tracking at `/track/:trackingId`.
+
+Smoke tests (quick verification):
+
+1. Start servers and ensure MongoDB is running locally (default URI `mongodb://127.0.0.1:27017/logistics_dispatch`).
+
+```bash
+# install deps and seed if needed
+npm run install:all
+npm run seed
+
+# start client+server
+npm run dev
+```
+
+2. In a separate shell run the smoke test script (exercises demo accounts and core RBAC flows):
+
+```bash
+node tools/smokeTest.js
+```
+
+The smoke script uses demo accounts seeded with password `password123` (see Seed section). It reports allowed vs forbidden responses for each role.
+
+## MongoDB Lead Capture
+
+The landing page now persists public submissions to MongoDB.
+
+- Demo requests are saved in the `leads` collection with type `demo_request`.
+- Newsletter signups are saved in the `leads` collection with type `newsletter`.
+- Contact submissions are saved in the `leads` collection with type `contact`.
+
+Admin users can review these submissions in the in-app **Leads** workspace at `/leads`.
+
+### Demo walkthrough
+
+1. Open the DispatchAI landing page.
+2. Click **Book a Demo** and submit the form.
+3. Confirm the lead is stored in MongoDB.
+4. Sign in as `admin@logistics.com`.
+5. Open **Leads** from the navigation or dashboard.
+6. Filter and update lead status directly in the dashboard.
+
 ## End-to-End Demo Scenario
 
 1. Login as **dispatcher@logistics.com**
