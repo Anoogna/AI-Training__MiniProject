@@ -17,10 +17,48 @@ export const useVoiceAssistant = () => {
     }
   }, []);
 
+  const isCasualConversation = useCallback((text) => {
+    const lower = text.toLowerCase().trim();
+    if (!lower) return false;
+
+    const casualStarts = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening'];
+    if (casualStarts.some((phrase) => lower === phrase || lower.startsWith(`${phrase} `))) {
+      return true;
+    }
+
+    const commandHints = [
+      'vehicle',
+      'shipment',
+      'inventory',
+      'gate',
+      'driver',
+      'assign',
+      'broadcast',
+      'pending',
+      'route',
+      'task',
+      'load',
+      'exit',
+      'entry',
+      'confirm',
+      'register',
+    ];
+
+    return !commandHints.some((hint) => lower.includes(hint));
+  }, []);
+
   const processTranscript = useCallback(
     async (text) => {
       setTranscript(text);
       try {
+        if (isCasualConversation(text)) {
+          const chatRes = await voiceAPI.chat(text);
+          setResponse(chatRes.data.reply);
+          setActions([]);
+          speak(chatRes.data.reply);
+          return { response: chatRes.data.reply, actions: [] };
+        }
+
         const res = await voiceAPI.process(text, sessionId);
         setSessionId(res.data.sessionId);
         setResponse(res.data.response);
@@ -33,7 +71,7 @@ export const useVoiceAssistant = () => {
         return null;
       }
     },
-    [sessionId, speak]
+    [isCasualConversation, sessionId, speak]
   );
 
   const startListening = useCallback(() => {

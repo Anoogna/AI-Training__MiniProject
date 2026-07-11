@@ -71,6 +71,7 @@ export const warehouseAPI = {
 
 export const voiceAPI = {
   process: (transcript, sessionId) => api.post('/voice/process', { transcript, sessionId }),
+  chat: (message) => api.post('/voice/chat', { message }),
 };
 
 export const leadAPI = {

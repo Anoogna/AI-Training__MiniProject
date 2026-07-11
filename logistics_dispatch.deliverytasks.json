@@ -1,0 +1,218 @@
+[{
+  "_id": {
+    "$oid": "6a394680b52e02741ab74aaa"
+  },
+  "shipment": {
+    "$oid": "6a394680b52e02741ab74aa8"
+  },
+  "priority": 2,
+  "status": "assigned",
+  "botSuggested": true,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:16.727Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:36:54.003Z"
+  },
+  "__v": 0,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa1"
+  },
+  "botReason": "Nearest idle vehicle T-01 (0.0 km away)"
+},
+{
+  "_id": {
+    "$oid": "6a394680b52e02741ab74aae"
+  },
+  "shipment": {
+    "$oid": "6a394680b52e02741ab74aac"
+  },
+  "priority": 3,
+  "status": "assigned",
+  "botSuggested": true,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:16.739Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:36:53.986Z"
+  },
+  "__v": 0,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa3"
+  },
+  "botReason": "Nearest idle vehicle T-03 (0.0 km away)"
+},
+{
+  "_id": {
+    "$oid": "6a394680b52e02741ab74ab2"
+  },
+  "shipment": {
+    "$oid": "6a394680b52e02741ab74ab0"
+  },
+  "priority": 1,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa6"
+  },
+  "assignedDriver": {
+    "$oid": "6a394680b52e02741ab74a99"
+  },
+  "status": "assigned",
+  "botSuggested": false,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:16.750Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:28:16.750Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab7561b"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab75619"
+  },
+  "priority": 2,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa6"
+  },
+  "assignedDriver": {
+    "$oid": "6a394680b52e02741ab74a99"
+  },
+  "status": "assigned",
+  "botSuggested": false,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.189Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:28:18.189Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab7573a"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab75738"
+  },
+  "priority": 1,
+  "status": "assigned",
+  "botSuggested": false,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.471Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:28:18.471Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab7573e"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab7573c"
+  },
+  "priority": 1,
+  "status": "assigned",
+  "botSuggested": false,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.479Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:28:18.479Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab75742"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab75740"
+  },
+  "priority": 2,
+  "status": "assigned",
+  "botSuggested": true,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.486Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:36:54.010Z"
+  },
+  "__v": 0,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa1"
+  },
+  "botReason": "Nearest idle vehicle T-01 (0.0 km away)"
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab75746"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab75744"
+  },
+  "priority": 3,
+  "status": "assigned",
+  "botSuggested": true,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.493Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:36:53.997Z"
+  },
+  "__v": 0,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa2"
+  },
+  "botReason": "Nearest idle vehicle T-02 (0.0 km away)"
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab7574a"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab75748"
+  },
+  "priority": 1,
+  "status": "assigned",
+  "botSuggested": true,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.499Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:36:54.016Z"
+  },
+  "__v": 0,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa5"
+  },
+  "botReason": "Nearest idle vehicle T-05 (0.0 km away)"
+},
+{
+  "_id": {
+    "$oid": "6a394682b52e02741ab7574e"
+  },
+  "shipment": {
+    "$oid": "6a394682b52e02741ab7574c"
+  },
+  "priority": 2,
+  "assignedVehicle": {
+    "$oid": "6a394680b52e02741ab74aa6"
+  },
+  "assignedDriver": {
+    "$oid": "6a394680b52e02741ab74a99"
+  },
+  "status": "assigned",
+  "botSuggested": false,
+  "createdAt": {
+    "$date": "2026-06-22T14:28:18.506Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-22T14:28:18.506Z"
+  },
+  "__v": 0
+}]

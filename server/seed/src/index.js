@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import http from 'http';
 import { Server } from 'socket.io';
-import cron from 'node-cron';
 
 import authRoutes from './routes/auth.js';
 import shipmentRoutes from './routes/shipments.js';
@@ -80,8 +79,8 @@ const start = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB connected');
 
-    cron.schedule('*/3 * * * *', () => simulateGpsMovement());
-    cron.schedule('*/5 * * * *', () => checkTrafficAndReroute(io));
+    setInterval(simulateGpsMovement, 3000);
+    setInterval(() => checkTrafficAndReroute(io), 20000);
 
     const PORT = process.env.PORT || 5000;
     server.listen(PORT, () => {

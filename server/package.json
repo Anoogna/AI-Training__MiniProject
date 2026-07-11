@@ -2,18 +2,22 @@
   "name": "logistics-dispatch-server",
   "version": "1.0.0",
   "description": "MERN Logistics & Vehicle Dispatch Automation API",
-  "main": "src/index.js",
+  "main": "seed/src/index.js",
+
   "type": "module",
+
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
+    "start": "node seed/src/index.js",
+    "dev": "node --watch seed/src/index.js",
     "seed": "node seed/seed.js"
   },
+
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "groq-sdk": "^1.3.0",
     "jsonwebtoken": "^9.0.2",
     "logistics-dispatch": "file:..",
     "mongoose": "^8.9.3",

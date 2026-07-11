@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { deliveryAPI, messageAPI } from '../services/api';
+import { deliveryAPI, messageAPI, voiceAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
 export default function ChatPanel() {
   const { user } = useAuth();
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hello! I am the delivery coordination bot. Try "run bot" or type a command.' },
+    { from: 'bot', text: 'Hello! I am the delivery coordination bot. You can type a command or just say hello.' },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,10 +29,11 @@ export default function ChatPanel() {
         } else {
           const res = await deliveryAPI.runBot();
           reply = res.data.message;
-        }
-        if (res.data.suggestions?.length) {
+          if (res.data.suggestions?.length) {
           reply += ' ' + res.data.suggestions.map((s) => `${s.shipmentId}→${s.vehicleId}`).join(', ');
         }
+        }
+        
       } else if (lower.includes('pending')) {
         if (!user || !['admin', 'dispatcher'].includes(user.role)) {
           reply = 'Forbidden: only admin or dispatcher can view pending tasks.';
@@ -49,7 +50,8 @@ export default function ChatPanel() {
           reply = res.data.message;
         }
       } else {
-        reply = 'Commands: "run bot", "show pending", "broadcast <message>"';
+        const res = await voiceAPI.chat(userMsg);
+        reply = res.data.reply;
       }
 
       setMessages((prev) => [...prev, { from: 'bot', text: reply }]);
